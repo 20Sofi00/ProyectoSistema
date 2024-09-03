@@ -13,11 +13,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;git-widget-placeholder&quot;: &quot;feature/historia3&quot;
-  }
-}</component>
+  <component name="PropertiesComponent"><![CDATA[{}]]></component>
   <component name="TaskManager">
     <servers />
   </component>
