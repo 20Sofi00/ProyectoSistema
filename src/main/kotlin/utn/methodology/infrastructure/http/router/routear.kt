@@ -1,6 +1,5 @@
 package utn.methodology.infrastructure.http.router
 
-import utn.methodology.domain.entities.usuario
 import utn.methodology.infrastructure.http.actions.ConfirmUsuarioAction
 import utn.methodology.infrastructure.persistence.connectToMongoDB
 import utn.methodology.application.commandHandlers.ConfirmUserHandler

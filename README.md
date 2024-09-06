@@ -1,3 +1,5 @@
+
+
 # Convenio de reglas de uso de Git:
 (para leer mejor este instructivo en un editor de codigo aprete las teclas ctrl + v + mayús)
 Este archivo tiene el objetivo de ser un ayuda memoria y un recopilatorio de buenas prácticas en git.

@@ -7,8 +7,9 @@ import  utn.methodology.infrastructure.http.router.routear
 class ConfirmUsuarioAction(
     private val handler: ConfirmUserHandler
 ) {
-    fun execute(body: ConfirmUserCommand)
-    {
+    fun execute(body: ConfirmUserCommand) {
+
+
         body.validate().let {
             handler.handle(it)
         }
