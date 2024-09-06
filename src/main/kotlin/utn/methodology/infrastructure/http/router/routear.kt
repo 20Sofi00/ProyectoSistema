@@ -1,6 +1,5 @@
 package utn.methodology.infrastructure.http.router
 
-import utn.methodology.domain.entities.usuario
 import utn.methodology.infrastructure.http.actions.ConfirmUsuarioAction
 import utn.methodology.infrastructure.persistence.connectToMongoDB
 import utn.methodology.infrastructure.persistence.usuarioMongoRepository
@@ -12,12 +11,12 @@ import com.mongodb.client.*
 
 
 fun Application.routear() {
-    val mongoDatabase = connectToMongoDB() // Conexión a la base de datos
+    val mongoDatabase = connectToMongoDB()
 
-    val usuarioMongoRepository = usuarioMongoRepository(mongoDatabase) // Inyección del repositorio
+    val usuarioMongoRepository = usuarioMongoRepository(mongoDatabase)
 
     val confirmUserAction =
-        confirmUsuarioAction(ConfirmUsuarioHandler(usuarioMongoRepository, eventBus)) // Inyección del manejador de la acción
+        confirmUsuarioAction(ConfirmUsuarioHandler(usuarioMongoRepository, eventBus))
 
 //    val findUserByIdAction = FindUserByIdAction(FindUserByIdHandler(userMongoUserRepository))
 
