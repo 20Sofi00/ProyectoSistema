@@ -4,10 +4,10 @@ import utn.methodology.infrastructure.http.router.*
 import utn.methodology.application.commandhandlers.*
 
 class ConfirmUserCommand(
-    private val nombre: String,
-   private val nombreUsuario: String,
-   private val correoElectronico: String,
-   private val contrasena: String,
+    val nombre: String,
+    val nombreUsuario: String,
+    val correoElectronico: String,
+    val contrasena: String,
 ){
     fun validate(): ConfirmUserCommand{
 

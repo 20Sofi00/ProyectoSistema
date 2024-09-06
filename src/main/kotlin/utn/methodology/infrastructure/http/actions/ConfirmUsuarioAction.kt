@@ -5,7 +5,7 @@ import utn.methodology.application.commands.ConfirmUsuarioCommand
 class ConfirmUsuarioAction(
     private val handler: ConfirmUserHandler
 ) {
-    fun execute(body: ConfirmUsuarioCommand) {
+    fun execute(body: ConfirmUserCommand) {
 
 
         body.validate().let {
