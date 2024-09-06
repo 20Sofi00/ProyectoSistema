@@ -1,15 +1,13 @@
 package utn.methodology.application.commandHandlers
 
-import utn.methodology.application.commands.ConfirmUsuarioCommand
+import utn.methodology.application.commands.ConfirmUserCommand
 import utn.methodology.domain.contracts.UsuarioRepository
-import utn.methodology.domain.entities.usuario
-import utn.methodology.infrastructure.persistance.repositories.UsuarioMongoRepository
 import java.util.*
 
-class ConfirmUsuarioHandler(
+class ConfirmUserHandler(
     private val usuarioRepository: UsuarioRepository,
 ) {
-    fun handle(command: ConfirmUsuarioCommand) {
+    fun handle(command: ConfirmUserCommand) {
 
        try {
         val usuario = Usuario.create(
