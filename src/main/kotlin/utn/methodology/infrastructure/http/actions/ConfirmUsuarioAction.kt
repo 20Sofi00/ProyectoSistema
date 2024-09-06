@@ -1,10 +1,9 @@
 package utn.methodology.infrastructure.http.actions
-import utn.methodology.application.commandHandlers.ConfirmUsuarioHandler
+import utn.methodology.application.commandHandlers.ConfirmUserHandler
 import utn.methodology.application.commands.ConfirmUsuarioCommand
-import utn.methodology.domain.entities.usuario
 
 class ConfirmUsuarioAction(
-    private val handler: ConfirmUsuarioHandler
+    private val handler: ConfirmUserHandler
 ) {
     fun execute(body: ConfirmUserCommand) {
 
