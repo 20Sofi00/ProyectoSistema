@@ -2,7 +2,7 @@ package utn.methodology.domain.entities
 
 import java.util.UUID
 
-class usuario (
+class Usuario (
     private val uuid: String,
     private val nombre: String,
     private val nombreUsuario: String,
@@ -12,9 +12,9 @@ class usuario (
 
 
     companion object {
-        fun fromPrimitives(primitives: Map<String, Any>): usuario {
+        fun fromPrimitives(primitives: Map<String, Any>): Usuario {
 
-            val Usuario = usuario(
+            val usuario = Usuario(
                 primitives["id"] as String,
                 primitives["nombre"] as String,
                 primitives["nombreUsuario"] as String,
@@ -22,7 +22,7 @@ class usuario (
                 primitives["contrasena"] as String,
                 );
 
-            return Usuario;
+            return usuario;
 
 
         }
@@ -33,9 +33,9 @@ class usuario (
             nombreUsuario: String,
             correoElectronico: String,
             contrasena: String,
-        ): usuario {
+        ): Usuario {
 
-            val usuario = usuario(
+            val usuario = Usuario(
                 UUID.randomUUID().toString(),
                 nombre,
                 nombreUsuario,
@@ -58,5 +58,7 @@ class usuario (
         )
     }
 
-
+    fun getId(): String {
+        return this.uuid;
+    }
 }
