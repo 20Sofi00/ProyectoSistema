@@ -3,7 +3,9 @@ package utn.methodology.infrastructure.http.router
 import utn.methodology.domain.entities.usuario
 import utn.methodology.infrastructure.http.actions.ConfirmUsuarioAction
 import utn.methodology.infrastructure.persistence.connectToMongoDB
-import utn.methodology.infrastructure.persistence.usuarioMongoRepository
+import utn.methodology.application.commandHandlers.ConfirmUserHandler
+import utn.methodology.application.commands.ConfirmUserCommand
+//import utn.methodology.infrastructure.persistence.usuarioMongoRepository
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -17,7 +19,7 @@ fun Application.routear() {
     val usuarioMongoRepository = usuarioMongoRepository(mongoDatabase)
 
     val confirmUserAction =
-        confirmUsuarioAction(ConfirmUsuarioHandler(usuarioMongoRepository, eventBus))
+        ConfirmUsuarioAction(ConfirmUserHandler(usuarioMongoRepository, eventBus))
 
 //    val findUserByIdAction = FindUserByIdAction(FindUserByIdHandler(userMongoUserRepository))
 
@@ -26,7 +28,7 @@ fun Application.routear() {
         post("/usuario") {
             println("Received POST request to /usuario")
 
-            val body = call.receive<ConfirmUsuarioCommand>()
+            val body = call.receive<ConfirmUserCommand>()
 
             ConfirmUsuarioAction.execute(body)
 
