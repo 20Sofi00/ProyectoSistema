@@ -1,4 +1,4 @@
-package utn.methodology.application.commandHandlers
+package utn.methodology.application.commandhandlers
 
 import utn.methodology.application.commands.ConfirmUserCommand
 import utn.methodology.domain.contracts.UsuarioRepository
