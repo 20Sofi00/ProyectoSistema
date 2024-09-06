@@ -6,7 +6,7 @@ import utn.methodology.domain.entities.usuario
 class ConfirmUsuarioAction(
     private val handler: ConfirmUsuarioHandler
 ) {
-    fun execute(body: ConfirmUsuarioCommand) {
+    fun execute(body: ConfirmUserCommand) {
 
 
         body.validate().let {
