@@ -12,12 +12,12 @@ import com.mongodb.client.*
 
 
 fun Application.routear() {
-    val mongoDatabase = connectToMongoDB() // Conexión a la base de datos
+    val mongoDatabase = connectToMongoDB()
 
-    val usuarioMongoRepository = usuarioMongoRepository(mongoDatabase) // Inyección del repositorio
+    val usuarioMongoRepository = usuarioMongoRepository(mongoDatabase)
 
     val confirmUserAction =
-        confirmUsuarioAction(ConfirmUsuarioHandler(usuarioMongoRepository, eventBus)) // Inyección del manejador de la acción
+        confirmUsuarioAction(ConfirmUsuarioHandler(usuarioMongoRepository, eventBus))
 
 //    val findUserByIdAction = FindUserByIdAction(FindUserByIdHandler(userMongoUserRepository))
 
