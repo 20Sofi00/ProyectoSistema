@@ -1,5 +1,5 @@
 package utn.methodology.infrastructure.http.actions
-import utn.methodology.application.commandHandlers.ConfirmUserHandler
+import utn.methodology.application.commandhandlers.ConfirmUserHandler
 import utn.methodology.application.commands.ConfirmUserCommand
 import  utn.methodology.infrastructure.http.router.routear
 
