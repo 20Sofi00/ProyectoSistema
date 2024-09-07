@@ -8,7 +8,7 @@ import utn.methodology.domain.entities.Usuario
 //import io.github.cdimascio.dotenv.dotenv
 import org.bson.Document
 
-class MongoUserRepository(private val database: MongoDatabase) {
+class UsuarioMongoRepository(private val database: MongoDatabase) {
 
     private var collection: MongoCollection<Any>;
 
