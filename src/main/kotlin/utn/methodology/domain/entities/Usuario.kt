@@ -28,7 +28,7 @@ class Usuario (
         }
 
         fun create(
-            id: String,
+
             nombre: String,
             nombreUsuario: String,
             correoElectronico: String,
