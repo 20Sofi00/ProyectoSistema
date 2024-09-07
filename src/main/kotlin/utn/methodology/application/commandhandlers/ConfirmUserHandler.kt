@@ -2,6 +2,7 @@ package utn.methodology.application.commandhandlers
 import utn.methodology.domain.entities.Usuario
 import utn.methodology.application.commands.ConfirmUserCommand
 import utn.methodology.domain.entities.contracts.UsuarioRepository
+import utn.methodology.infrastructure.persistence.repositories.MongoUserRepository
 import java.util.*
 
 class ConfirmUserHandler(
@@ -30,13 +31,8 @@ class ConfirmUserHandler(
             throw IllegalArgumentException("Todos los campos son obligatorios.")
         }
 
-        if (usuarioRepository.existsByNombreUsuario(command.nombreUsuario)) {
-            throw IllegalArgumentException("El nombre de usuario ya existe.")
-        }
 
-        if (usuarioRepository.existsByCorreoElectronico(command.correoElectronico)) {
-            throw IllegalArgumentException("El correo electrónico ya está registrado.")
-        }
+
 
     }
 
