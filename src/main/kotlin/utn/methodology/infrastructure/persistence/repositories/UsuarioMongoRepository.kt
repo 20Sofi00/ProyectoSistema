@@ -7,8 +7,9 @@ import com.mongodb.client.model.UpdateOptions
 import utn.methodology.domain.entities.Usuario
 //import io.github.cdimascio.dotenv.dotenv
 import org.bson.Document
+import utn.methodology.domain.entities.contracts.UsuarioRepository
 
-class MongoUserRepository(private val database: MongoDatabase) {
+class MongoUserRepository(private val database: MongoDatabase): UsuarioRepository {
 
     private var collection: MongoCollection<Any>;
 
@@ -18,7 +19,7 @@ class MongoUserRepository(private val database: MongoDatabase) {
 
 
 
-    fun save(usuario: Usuario) {
+    override fun save(usuario: Usuario) {
         println("UsuarioMongoRepository - Saving usuario: $usuario")
         val options = UpdateOptions().upsert(true);
 
@@ -29,7 +30,7 @@ class MongoUserRepository(private val database: MongoDatabase) {
     }
 
 
-    fun findOne(id: String): Usuario? {
+    override fun findOne(id: String): Usuario? {
         val filter = Document("_id", id);
 
         val primitives = collection.find(filter).firstOrNull();
