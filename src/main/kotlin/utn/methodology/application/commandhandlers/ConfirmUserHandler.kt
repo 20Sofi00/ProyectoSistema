@@ -1,7 +1,7 @@
 package utn.methodology.application.commandhandlers
-
+import utn.methodology.domain.entities.Usuario
 import utn.methodology.application.commands.ConfirmUserCommand
-import utn.methodology.domain.contracts.UsuarioRepository
+import utn.methodology.domain.entities.contracts.UsuarioRepository
 import java.util.*
 
 class ConfirmUserHandler(
