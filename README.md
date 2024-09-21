@@ -107,3 +107,9 @@ Uso: Para reorganizar o mejorar el código sin cambiar el comportamiento externo
 
 Ejemplo: [IMP] Add user authentication feature
 Uso: Para añadir nuevas funciones o características al código.
+
+
+# Comando para encontrar todos los archivos que contienen variables en español.
+## git grep -l "español" 
+
+
