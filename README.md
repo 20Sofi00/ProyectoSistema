@@ -1,7 +1,8 @@
 
 
 # Convenio de reglas de uso de Git:
-(para leer mejor este instructivo en un editor de codigo aprete las teclas ctrl + v + mayús)
+(para leer mejor este instructivo en un editor de codigo aprete las teclas ctrl + v + mayús en caso de estar en visual code o IDEA)
+
 Este archivo tiene el objetivo de ser un ayuda memoria y un recopilatorio de buenas prácticas en git.
 
 
@@ -9,14 +10,17 @@ Este archivo tiene el objetivo de ser un ayuda memoria y un recopilatorio de bue
 Lo primero es saber en qué rama estas y el estado de la misma:
 git status
 
-En caso de no estar en la rama main moverse a la misma:
-git checkout main
+En caso de no estar en la rama dev moverse a la misma (esta es la rama de desarroyo la cual devemos usar  y NO Main que es una rama de produccion):
+git checkout dev
 
-Ya en la main lo siguiente es actualizarla:
-git pull origin main
+Ya en la dev lo siguiente es actualizarla:
+git pull origin dev
 
 Estamos listos para crear la rama el comando es el siguiente:
 git checkout -b FuncionDeLaRama/NombreRama (ver convención de nombres de rama más abajo)
+ejmplo: git checkout -b feature/Historia1_ModeloBasico
+
+de esta forma crearas una copia de la rama donde te encontrabas(dev) para poder resolver tu historia.
 
 ## como subir tus cambios en tu rama
 
@@ -31,33 +35,44 @@ git add .
 
 Ahora etiquetamos el paquete con un commit:
 
-git commit -m "mensaje que identifica el pull"
+git commit -m "mensaje que identifica el push"
 
 Lo último a hacer es hacer un envío de datos a tu rama:
 
-git pull origin NombreRama
+git puhs origin NombreRama
 
-## Actualizar tu rama (esto es muuuuuy importantes antes de  hacer tu ultimo pull):
+## Actualizar tu rama (esto es muuuuuy importantes antes de subir lo que realizaste):
 Para traerte los cambios y las ramas actualizadas los pasos a seguir son:
 
 comando para saber en qué rama estas y el estado de la misma se usa el comando:
 git status
 
-Luego de ver en qué rama estas en necesario que te muevas a la rama main para actualizar tu rama:
-git checkout main
+Luego de ver en qué rama estas en necesario que te muevas a la rama dev para actualizar tu rama:
+git checkout dev
 
-El siguiente paso es actualizar tu rama main :
-git pull origin main
+El siguiente paso es actualizar tu rama dev :
+git pull origin dev
 
-luego regresamos a la rama  que queremos actualizar :
+luego regresamos a la rama que queremos actualizar :
 git checkout nombrerama
 
 toca mergear:
-git merge main
+git merge dev
 
-y con eso te traes todos los cambios de la main (es posible que tengas que resolver conflictos)
+y con eso te traes todos los cambios de la dev (es posible que tengas que resolver conflictos)
 
+## Como subir tu rama a la rama dev y terminar la historia
+ Luego de haber acturalizado tu rama (Que es el paso anterior y es muy muy muy importante) y resolver todos los conflictos resultantes
+ vamos a situarnos en tu rama (podes saber si estas en tu rama con el comando git status)
+ guarda los cambios en tu rama (siguiendo los pasos de la guia "como subir tus cambios en tu rama")
+ 
+ De ahi nos moveremos a la rama dev con el comando para mover entre ramas:
+git checkout dev
 
+nunca esta de mas revisar si esta actualizado el dev con el comando de "git pull origin dev" ya que si no lo esta tendras que bolver a la gia anterior y actualizar tu rama con la dev
+
+Si todo esta correcto haremso el merge con el comando
+git merge nombrerama
 
 ## Convenciones de Nombres de Ramas
 
