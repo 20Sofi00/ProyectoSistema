@@ -41,5 +41,6 @@ class UsuarioMongoRepository(private val database: MongoDatabase): UsuarioReposi
 
         return Usuario.fromPrimitives(primitives as Map<String, String>)
     }
+
 }
 
