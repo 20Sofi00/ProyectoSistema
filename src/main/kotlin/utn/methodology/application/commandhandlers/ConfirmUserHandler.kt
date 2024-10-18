@@ -1,33 +1,33 @@
 package utn.methodology.application.commandhandlers
-import utn.methodology.domain.entities.Usuario
+import utn.methodology.domain.entities.models.User
 import utn.methodology.application.commands.ConfirmUserCommand
-import utn.methodology.domain.entities.contracts.UsuarioRepository
+import utn.methodology.domain.entities.contracts.UserRepository
 import utn.methodology.infrastructure.persistence.repositories.MongoUserRepository
 import java.util.*
 
 class ConfirmUserHandler(
-    private val usuarioRepository: UsuarioRepository,
+    private val userRepository: UserRepository,
 ) {
     fun handle(command: ConfirmUserCommand) {
 
-       try {
-        val usuario = Usuario.create(
-            command.nombre,
-            command.nombreUsuario,
-            command.correoElectronico,
-            command.contrasena,
+    try {
+        val user = User.create(
+            command.name,
+            command.userName,
+            command.email,
+            command.password,
 
             )
 
-        usuarioRepository.save(usuario)
+        userRepository.save(user)
 
-       } catch (e: Exception) {
+    } catch (e: Exception) {
 
-           throw RuntimeException("Error al crear el usuario: ${e.message}", e)
-       }
+        throw RuntimeException("Error al crear el usuario: ${e.message}", e)
+    }
 
 
-        if (command.nombre.isBlank() || command.nombreUsuario.isBlank() || command.correoElectronico.isBlank() || command.contrasena.isBlank()) {
+        if (command.name.isBlank() || command.userName.isBlank() || command.email.isBlank() || command.password.isBlank()) {
             throw IllegalArgumentException("Todos los campos son obligatorios.")
         }
 

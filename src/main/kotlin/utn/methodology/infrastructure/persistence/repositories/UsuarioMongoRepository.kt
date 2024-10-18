@@ -4,12 +4,12 @@ package utn.methodology.infrastructure.persistence.repositories
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.UpdateOptions
-import utn.methodology.domain.entities.Usuario
+import utn.methodology.domain.entities.models.User
 //import io.github.cdimascio.dotenv.dotenv
 import org.bson.Document
-import utn.methodology.domain.entities.contracts.UsuarioRepository
+import utn.methodology.domain.entities.contracts.UserRepository
 
-class UsuarioMongoRepository(private val database: MongoDatabase): UsuarioRepository {
+class UserMongoRepository(private val database: MongoDatabase): UserRepository {
 
     private var collection: MongoCollection<Any>;
 
@@ -19,18 +19,18 @@ class UsuarioMongoRepository(private val database: MongoDatabase): UsuarioReposi
 
 
 
-    override fun save(usuario: Usuario) {
-        println("UsuarioMongoRepository - Saving usuario: $usuario")
+    override fun save(user: User) {
+        println("UserMongoRepository - Saving user: $user")
         val options = UpdateOptions().upsert(true);
 
-        val filter = Document("_id", usuario.getId()) // Usa el campo id como filter
-        val update = Document("\$set", usuario.toPrimitives())
+        val filter = Document("_id", user.getId()) // Usa el campo id como filter
+        val update = Document("\$set", user.toPrimitives())
 
         collection.updateOne(filter, update, options)
     }
 
 
-    override fun findOne(id: String): Usuario? {
+    override fun findOne(id: String): User? {
         val filter = Document("_id", id);
 
         val primitives = collection.find(filter).firstOrNull();
@@ -39,7 +39,7 @@ class UsuarioMongoRepository(private val database: MongoDatabase): UsuarioReposi
             return null;
         }
 
-        return Usuario.fromPrimitives(primitives as Map<String, String>)
+        return User.fromPrimitives(primitives as Map<String, String>)
     }
 
 }
