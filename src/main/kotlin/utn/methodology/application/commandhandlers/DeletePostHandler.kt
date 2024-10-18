@@ -10,12 +10,12 @@ class DeletePostHandler(
 
     fun handle(command: DeletePostCommand) {
 
-        val post = postRepository.findOne(command.postId)
+        val post = postRepository.findById(command.postId)
 
-        if (post == null || post.userId != command.userId) {
-            throw NotFoundException("not found user with id: ${command.postId}")
+        if (post != null) {
+            postRepository.delete(command.postId, command.userId);
+            return
         }
-
-        postRepository.delete(post);
+        throw NotFoundException("not found user with id: ${command.postId}")
     }
 }

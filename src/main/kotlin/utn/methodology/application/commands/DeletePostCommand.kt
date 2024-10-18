@@ -1,7 +1,8 @@
 package utn.methodology.application.commands
+import utn.methodology.domain.entities.models.Post
 
 data class DeletePostCommand(
-    val postId: String,
+    val postId: Post,
     val userId: String
 ) {
     fun validate(): DeletePostCommand{

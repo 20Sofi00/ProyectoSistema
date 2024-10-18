@@ -30,6 +30,7 @@ dependencies {
     implementation("org.mongodb:mongodb-driver-core:$mongo_version")
     implementation("org.mongodb:mongodb-driver-sync:$mongo_version")
     implementation("org.mongodb:bson:$mongo_version")
+    implementation("org.mindrot.bcrypt:bcrypt:0.3")
     implementation("io.ktor:ktor-server-host-common:2.0.0")
     implementation("io.ktor:ktor-server-status-pages:2.0.0")
     implementation("io.ktor:ktor-serialization-jackson-jvm")
