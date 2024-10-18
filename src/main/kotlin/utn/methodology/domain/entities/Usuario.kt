@@ -3,11 +3,13 @@ package utn.methodology.domain.entities
 import java.util.UUID
 
 class Usuario (
-    private val uuid: String,
-    private val nombre: String,
-    private val nombreUsuario: String,
-    private val correoElectronico: String,
-    private val contrasena: String,
+     private val uuid: String,
+     private val nombre: String,
+     private val nombreUsuario: String,
+     private val correoElectronico: String,
+     private val contrasena: String,
+    val followers: List<String> = listOf(),
+    val followed: List<String> = listOf()
 ) {
 
 

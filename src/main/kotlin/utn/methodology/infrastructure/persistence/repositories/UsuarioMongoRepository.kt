@@ -1,6 +1,6 @@
 package utn.methodology.infrastructure.persistence.repositories
 
-
+import org.litote.kmongo.addToSet
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.UpdateOptions
@@ -16,7 +16,23 @@ class UsuarioMongoRepository(private val database: MongoDatabase): UsuarioReposi
     init {
         collection = database.getCollection("users") as MongoCollection<Any>;
     }
+    fun followUser(followerId: List<String>, followeeId: List<String>): Boolean {
+        val follower = findById(followerId)
+        val followee = findById(followeeId)
 
+        if (follower != null && followee != null && followerId != followeeId) {
+            collection.updateOneById(
+                followerId,
+                addToSet(Usuario::following, followeeId)
+            )
+           collection.updateOneById(
+                followeeId,
+                addToSet(Usuario::followers, followerId)
+            )
+            return true
+        }
+        return false
+    }
 
 
     override fun save(usuario: Usuario) {

@@ -20,7 +20,7 @@ class MongoPostRepository(private val database: MongoDatabase) {
         collection.insertOne(document)  // Guardar el documento en la colección
     }
 
-    /*    fun findById(postId: String): Post? {
+    fun findById(postId: String): Post? {
           val document = collection.find(Filters.eq("_id", postId)).first()
           return document?.let {
               Post(
@@ -30,15 +30,15 @@ class MongoPostRepository(private val database: MongoDatabase) {
               )
           }
       }
-
-      fun findAll(): List<Post> {
-          return collection.find().map {
-              Post(
-                  userId = it.getString("userId"),
-                  message = it.getString("message"),
-                  createdAt = LocalDateTime.parse(it.getString("createdAt"))
-              )
-          }.toList()
-      }
-      */
+    /*
+          fun findAll(): List<Post> {
+              return collection.find().map {
+                  Post(
+                      userId = it.getString("userId"),
+                      message = it.getString("message"),
+                      createdAt = LocalDateTime.parse(it.getString("createdAt"))
+                  )
+              }.toList()
+          }
+          */
 }
