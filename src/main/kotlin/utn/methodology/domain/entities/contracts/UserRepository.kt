@@ -1,9 +1,9 @@
 package utn.methodology.domain.entities.contracts
-import utn.methodology.domain.entities.Usuario
+import utn.methodology.domain.entities.models.User
 
-interface UsuarioRepository {
-        fun save(shipping: Usuario)
-        fun findOne(id: String): Usuario?
+interface UserRepository {
+        fun save(shipping: User)
+        fun findOne(id: String): User?
 
     }
 
