@@ -1,7 +1,7 @@
 package utn.methodology.infrastructure.http.actions
 import utn.methodology.application.commands.FollowUserCommand
 import utn.methodology.domain.entities.contracts.UsuarioRepository
-
+import utn.methodology.domain.entities.Usuario
 
 class FollowUserAction (private val userRepository: UsuarioRepository)  {
 
@@ -13,19 +13,21 @@ class FollowUserAction (private val userRepository: UsuarioRepository)  {
                 ?: return Result.failure(Exception("El usuario a seguir no existe"))
 
             // Validar si el usuario ya sigue al otro
-            if (follower.followed.contains(followed.uuid)) {
+            if (follower.followed.contains(command.followedId)) {
                 return Result.failure(Exception("Ya sigues a este usuario"))
             }
 
-            val updatedFollowed = followed.copy(
-                followers = followed.followers + follower.uuid  // Crea una nueva lista con el nuevo seguidor
-            )
 
-            // 6. Guardar los cambios en ambos usuarios
-            userRepository.save(updatedFollower)
-            userRepository.save(updatedFollowed)
+            followed.followers.add(follower.uuid)
 
-            // 7. Devolver un resultado de éxito
+
+            follower.followed.add(followed.uuid)
+
+
+            userRepository.save(follower)
+            userRepository.save(followed)
+
+
             return Result.success("Ahora sigues a ${followed.nombreUsuario}")
         }
     }
