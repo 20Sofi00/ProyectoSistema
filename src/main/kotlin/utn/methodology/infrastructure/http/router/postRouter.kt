@@ -34,4 +34,30 @@ fun Application.module() {
             call.respond(HttpStatusCode.Created, mapOf("message" to "Post creado exitosamente"))
         }
     }
+    fun Route.postRoutes() {
+
+        get("/posts/user/{userId}") {
+            val userId = call.parameters["userId"] ?: return@get call.respond(HttpStatusCode.BadRequest, "Missing userId")
+            val posts = PostService.getPostsByFollowedUsers(userId)
+
+            if (posts.isNotEmpty()) {
+                call.respond(HttpStatusCode.OK, posts)
+            } else {
+                call.respond(HttpStatusCode.NotFound, "No posts found for followed users of userId: $userId")
+            }
+        }
+
+
+        get("/posts/{id}") {
+            val postId = call.parameters["id"] ?: return@get call.respond(HttpStatusCode.BadRequest, "Missing post ID")
+
+            val post = PostService.getPostById(postId)
+
+            if (post != null) {
+                call.respond(HttpStatusCode.OK, post)
+            } else {
+                call.respond(HttpStatusCode.NotFound, "Post not found with ID: $postId")
+            }
+        }
+    }
 }

@@ -11,6 +11,7 @@ class ConfirmUsuarioAction(
 
 
         body.validate().let {
+
             handler.handle(it)
         }
 
