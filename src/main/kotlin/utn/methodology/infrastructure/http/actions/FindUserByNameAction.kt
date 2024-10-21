@@ -1,6 +1,6 @@
 package utn.methodology.infrastructure.http.actions
 
-import utn.methodology.application.queries.FindUserbyNameQuery
+import utn.methodology.application.queries.FindUserByNameQuery
 import utn.methodology.application.queryhandlers.FindUserByNameHandler
 
 class FindUserByNameAction(
