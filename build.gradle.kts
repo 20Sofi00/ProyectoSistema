@@ -34,6 +34,7 @@ dependencies {
     implementation("io.ktor:ktor-server-host-common:2.0.0")
     implementation("io.ktor:ktor-server-status-pages:2.0.0")
     implementation("io.ktor:ktor-serialization-jackson-jvm")
+    implementation("org.mindrot.bcrypt:bcrypt:0.3")
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.ktor:ktor-server-config-yaml")
