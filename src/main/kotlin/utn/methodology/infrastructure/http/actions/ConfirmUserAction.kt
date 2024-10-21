@@ -4,7 +4,7 @@ import utn.methodology.application.commands.ConfirmUserCommand
 import  utn.methodology.infrastructure.http.router.routear
 
 
-class ConfirmUsuarioAction(
+class ConfirmUserAction(
     private val handler: ConfirmUserHandler
 ) {
     fun execute(body: ConfirmUserCommand) {
