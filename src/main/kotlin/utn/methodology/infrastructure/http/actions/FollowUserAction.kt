@@ -1,9 +1,9 @@
 package utn.methodology.infrastructure.http.actions
 import utn.methodology.application.commands.FollowUserCommand
-import utn.methodology.domain.entities.contracts.UsuarioRepository
-import utn.methodology.domain.entities.Usuario
+import utn.methodology.domain.entities.contracts.UserRepository
+import utn.methodology.domain.entities.models.User
 
-class FollowUserAction (private val userRepository: UsuarioRepository)  {
+class FollowUserAction (private val userRepository: UserRepository)  {
 
         fun execute(command: FollowUserCommand): Result<String> {
             val follower = userRepository.findById(command.userId)
