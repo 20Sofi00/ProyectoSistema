@@ -7,6 +7,7 @@ plugins {
     kotlin("jvm") version "2.0.0"
     id("io.ktor.plugin") version "2.3.12"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0"
+
 }
 
 group = "utn.methodology"
@@ -25,6 +26,7 @@ repositories {
 
 dependencies {
     implementation("org.litote.kmongo:kmongo:5.1.0")
+    implementation ("org.mindrot:jbcrypt:0.4")
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("io.ktor:ktor-server-content-negotiation-jvm")
@@ -34,7 +36,6 @@ dependencies {
     implementation("io.ktor:ktor-server-host-common:2.0.0")
     implementation("io.ktor:ktor-server-status-pages:2.0.0")
     implementation("io.ktor:ktor-serialization-jackson-jvm")
-    implementation("org.mindrot.bcrypt:bcrypt:0.3")
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.ktor:ktor-server-config-yaml")

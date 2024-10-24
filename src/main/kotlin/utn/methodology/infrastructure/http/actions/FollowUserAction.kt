@@ -1,7 +1,8 @@
 package utn.methodology.infrastructure.http.actions
+import utn.methodology.domain.entities.models.User
 import utn.methodology.application.commands.FollowUserCommand
 import utn.methodology.domain.entities.contracts.UserRepository
-import utn.methodology.domain.entities.models.User
+
 
 class FollowUserAction (private val userRepository: UserRepository)  {
 
@@ -17,9 +18,7 @@ class FollowUserAction (private val userRepository: UserRepository)  {
                 return Result.failure(Exception("Ya sigues a este usuario"))
             }
 
-
             followed.followers.add(follower.uuid)
-
 
             follower.followed.add(followed.uuid)
 
@@ -28,6 +27,6 @@ class FollowUserAction (private val userRepository: UserRepository)  {
             userRepository.save(followed)
 
 
-            return Result.success("Ahora sigues a ${followed.nombreUsuario}")
+            return Result.success("Ahora sigues a ${followed.userName}")
         }
     }

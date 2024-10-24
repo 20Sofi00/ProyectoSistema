@@ -1,4 +1,5 @@
 package utn.methodology.infrastructure.persistence.repositories
+import com.mongodb.client.model.Filters
 
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
@@ -19,6 +20,14 @@ class MongoPostRepository(private val database: MongoDatabase) {
 
         collection.insertOne(document)  // Guardar el documento en la colección
     }
+    fun updateOneById(postId: String, updatedPost: Post): Boolean {
+        val updateResult = collection.updateOne(
+            Filters.eq("_id", postId),
+            Document("\$set", Document("message", updatedPost.message))
+                .append("createdAt", updatedPost.createdAt.toString())
+        )
+        return updateResult.modifiedCount > 0
+    }
 
     fun findById(postId: String): Post? {
           val document = collection.find(Filters.eq("_id", postId)).first()
@@ -30,6 +39,7 @@ class MongoPostRepository(private val database: MongoDatabase) {
               )
           }
       }
+
     /*
           fun findAll(): List<Post> {
               return collection.find().map {
