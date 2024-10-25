@@ -20,10 +20,6 @@ class MongoPostRepository(private val database: MongoDatabase) {
 
         collection.insertOne(document)  // Guardar el documento en la colección
     }
-<<<<<<< HEAD
-    /*
-      fun findById(postId: String): Post? {
-=======
     fun updateOneById(postId: String, updatedPost: Post): Boolean {
         val updateResult = collection.updateOne(
             Filters.eq("_id", postId),
@@ -33,27 +29,26 @@ class MongoPostRepository(private val database: MongoDatabase) {
         return updateResult.modifiedCount > 0
     }
 
-    fun findById(postId: String): Post? {
->>>>>>> dev
-          val document = collection.find(Filters.eq("_id", postId)).first()
-          return document?.let {
-              Post(
-                  userId = it.getString("userId"),
-                  message = it.getString("message"),
-                  createdAt = LocalDateTime.parse(it.getString("createdAt"))
-              )
-          }
-      }
+fun findById(postId: String): Post? {
+        val document = collection.find(Filters.eq("_id", postId)).first()
+        return document?.let {
+            Post(
+                userId = it.getString("userId"),
+                message = it.getString("message"),
+                createdAt = LocalDateTime.parse(it.getString("createdAt"))
+            )
+        }
+    }
 
     /*
-          fun findAll(): List<Post> {
-              return collection.find().map {
-                  Post(
-                      userId = it.getString("userId"),
-                      message = it.getString("message"),
-                      createdAt = LocalDateTime.parse(it.getString("createdAt"))
-                  )
-              }.toList()
-          }
+        fun findAll(): List<Post> {
+            return collection.find().map {
+                Post(
+                    userId = it.getString("userId"),
+                    message = it.getString("message"),
+                    createdAt = LocalDateTime.parse(it.getString("createdAt"))
+                )
+            }.toList()
+        }
           */
 }
