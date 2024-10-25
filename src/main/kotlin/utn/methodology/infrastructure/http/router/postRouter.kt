@@ -9,19 +9,28 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import utn.methodology.application.commands.CreatePostCommand
 import utn.methodology.application.commandhandlers.CreatePostHandler
+import utn.methodology.application.services.PostService
 import utn.methodology.infrastructure.http.actions.CreatePostAction
 import utn.methodology.infrastructure.persistence.connectToMongoDB
 import utn.methodology.infrastructure.persistence.repositories.MongoPostRepository
+import utn.methodology.infrastructure.persistence.repositories.UserMongoRepository
 
 fun main() {
     embeddedServer(Netty, port = 8080, module = Application::module).start(wait = true)
 }
+
 fun Application.module() {
     // Conectar a la base de datos MongoDB
     val mongoDatabase = connectToMongoDB()
 
     // Crear el repositorio de posts
     val postRepository = MongoPostRepository(mongoDatabase)
+
+    // Crear el repositorio de usuarios
+    val userMongoRepository = UserMongoRepository(mongoDatabase)
+
+    // Crear el servicio de posts
+    val postService = PostService(userMongoRepository, postRepository)
 
     // Crear el handler y la acción para crear posts
     val createPostHandler = CreatePostHandler(postRepository)
@@ -33,31 +42,33 @@ fun Application.module() {
             createPostAction.execute(body)
             call.respond(HttpStatusCode.Created, mapOf("message" to "Post creado exitosamente"))
         }
+
+        // Definir las rutas para los posts
+        postRoutes(postService)
     }
-    fun Route.postRoutes() {
+}
 
-        get("/posts/user/{userId}") {
-            val userId = call.parameters["userId"] ?: return@get call.respond(HttpStatusCode.BadRequest, "Missing userId")
-            val posts = PostService.getPostsByFollowedUsers(userId)
+// Definir las rutas para los posts
+fun Route.postRoutes(postService: PostService) {
+    get("/posts/user/{userId}") {
+        val userId = call.parameters["userId"] ?: return@get call.respond(HttpStatusCode.BadRequest, "Missing userId")
+        val posts = postService.getPostsByFollowedUsers(userId)
 
-            if (posts.isNotEmpty()) {
-                call.respond(HttpStatusCode.OK, posts)
-            } else {
-                call.respond(HttpStatusCode.NotFound, "No posts found for followed users of userId: $userId")
-            }
+        if (posts.isNotEmpty()) {
+            call.respond(HttpStatusCode.OK, posts)
+        } else {
+            call.respond(HttpStatusCode.NotFound, "No posts found for followed users of userId: $userId")
         }
+    }
 
+    get("/posts/{id}") {
+        val postId = call.parameters["id"] ?: return@get call.respond(HttpStatusCode.BadRequest, "Missing post ID")
+        val post = postService.getPostById(postId)
 
-        get("/posts/{id}") {
-            val postId = call.parameters["id"] ?: return@get call.respond(HttpStatusCode.BadRequest, "Missing post ID")
-
-            val post = PostService.getPostById(postId)
-
-            if (post != null) {
-                call.respond(HttpStatusCode.OK, post)
-            } else {
-                call.respond(HttpStatusCode.NotFound, "Post not found with ID: $postId")
-            }
+        if (post != null) {
+            call.respond(HttpStatusCode.OK, post)
+        } else {
+            call.respond(HttpStatusCode.NotFound, "Post not found with ID: $postId")
         }
     }
 }

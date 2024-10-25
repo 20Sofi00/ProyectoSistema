@@ -35,10 +35,13 @@ dependencies {
     implementation("org.mongodb:bson:$mongo_version")
     implementation("io.ktor:ktor-server-host-common:2.0.0")
     implementation("io.ktor:ktor-server-status-pages:2.0.0")
+    implementation("io.ktor:ktor-server-routing:2.0.0")
+    implementation("io.ktor:ktor-server-core:2.0.0")
     implementation("io.ktor:ktor-serialization-jackson-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.ktor:ktor-server-config-yaml")
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+
 }

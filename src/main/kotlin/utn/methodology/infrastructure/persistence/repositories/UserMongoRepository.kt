@@ -13,6 +13,12 @@ class UserMongoRepository(private val database: MongoDatabase) : UserRepository 
 
     private val collection: MongoCollection<Document> = database.getCollection("users")
 
+    fun getFollowedUserIds(userId: String): List<String> {
+        val followersCollection = database.getCollection("followers")
+        return followersCollection.find(Document("followerId", userId))
+            .map { it.getString("followedId") }
+            .toList()
+    }
     fun followUser(followerId: String, followeeId: String): Boolean {
         val follower = findById(followerId)
         val followee = findById(followeeId)

@@ -20,24 +20,20 @@ class User (
             return BCrypt.hashpw(plainPassword, BCrypt.gensalt())
         }
         fun fromPrimitives(primitives: Map<String, Any>): User {
+            val uuid = (primitives["uuid"] as? String)
+                ?: throw IllegalArgumentException("El id no puede ser nulo") // Cambié "id" a "uuid"
+            val name = (primitives["name"] as? String)
+                ?: throw IllegalArgumentException("El nombre no puede ser nulo")
+            val userName = (primitives["userName"] as? String)
+                ?: throw IllegalArgumentException("El nombre de usuario no puede ser nulo")
+            val email = (primitives["email"] as? String)
+                ?: throw IllegalArgumentException("El correo electrónico no puede ser nulo")
+            val password = (primitives["password"] as? String)
+                ?: throw IllegalArgumentException("La contraseña no puede ser nula")
 
-            // Verificamos cada valor con 'as?' si el valor no es del tipo correcto devuelve null
-            // Luego consulta con ':?' , si el valor a la izquierda es null lanzamos una excepción personalizada.
-                val uuid = (primitives["id"] as? String)
-                    ?: throw IllegalArgumentException("El id no puede ser nulo")
-                val name = (primitives["name"] as? String)
-                    ?: throw IllegalArgumentException("El nombre no puede ser nulo")
-                val userName = (primitives["userName"] as? String)
-                    ?: throw IllegalArgumentException("El nombre de usuario no puede ser nulo")
-                val email = (primitives["email"] as? String)
-                    ?: throw IllegalArgumentException("El correo electrónico no puede ser nulo")
-                val password = (primitives["password"] as? String)
-                    ?: throw IllegalArgumentException("La contraseña no puede ser nula")
-
-            return User(uuid, name, userName, email, password);
-
-
+            return User(uuid, name, userName, email, password)
         }
+
 
         fun create(
 
