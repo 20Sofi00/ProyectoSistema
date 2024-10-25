@@ -16,7 +16,7 @@ class FindUserByNameHandler(
             throw NotFoundException("usuario con el nombre: ${query.name} no fue encontrado")
         }
 
-        return user.toPrimitives()
+        return user.toPrimitives() as Map<String, String>
     }
 
 }
