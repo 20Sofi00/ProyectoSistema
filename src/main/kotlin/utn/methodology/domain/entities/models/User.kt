@@ -1,14 +1,13 @@
 package utn.methodology.domain.entities
-
 import org.mindrot.jbcrypt.BCrypt
 import java.util.UUID
 
 class User (
-    private val uuid: String,
-    private val name: String,
-    private val userName: String,
-    private val email: String,
-    private val password: String,
+    val uuid: String,
+    val name: String,
+    val userName: String,
+    val email: String,
+    val password: String,
     val followers: MutableList<String> = mutableListOf(),
     val followed: MutableList<String> = mutableListOf()
 ) {
@@ -74,3 +73,4 @@ class User (
         return this.uuid;
     }
 }
+
