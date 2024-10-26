@@ -43,8 +43,6 @@ dependencies {
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
-<<<<<<< HEAD
-=======
     // MongoDB
     implementation("org.litote.kmongo:kmongo:5.1.0")
     implementation("org.mongodb:mongodb-driver-core:4.4.0")
@@ -60,5 +58,4 @@ dependencies {
     // Testing
     testImplementation("io.ktor:ktor-server-test-host:2.0.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.5.30")
->>>>>>> 80c6cdab5d5ac7f69c5341da4adf68ed372f35c4
 }

@@ -21,7 +21,7 @@ class User (
         }
         fun fromPrimitives(primitives: Map<String, Any>): User {
             val uuid = (primitives["uuid"] as? String)
-                ?: throw IllegalArgumentException("El id no puede ser nulo") // Cambié "id" a "uuid"
+                ?: throw IllegalArgumentException("El id no puede ser nulo") 
             val name = (primitives["name"] as? String)
                 ?: throw IllegalArgumentException("El nombre no puede ser nulo")
             val userName = (primitives["userName"] as? String)
