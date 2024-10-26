@@ -25,8 +25,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.litote.kmongo:kmongo:5.1.0")
-    implementation ("org.mindrot:jbcrypt:0.4")
+    // Ktor Core
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("io.ktor:ktor-server-content-negotiation-jvm")
@@ -44,4 +43,22 @@ dependencies {
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
+<<<<<<< HEAD
+=======
+    // MongoDB
+    implementation("org.litote.kmongo:kmongo:5.1.0")
+    implementation("org.mongodb:mongodb-driver-core:4.4.0")
+    implementation("org.mongodb:mongodb-driver-sync:4.4.0")
+    implementation("org.mongodb:bson:4.4.0")
+
+    // Security
+    implementation("org.mindrot:jbcrypt:0.4")
+
+    // Logging
+    implementation("ch.qos.logback:logback-classic:1.2.10")
+
+    // Testing
+    testImplementation("io.ktor:ktor-server-test-host:2.0.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.5.30")
+>>>>>>> 80c6cdab5d5ac7f69c5341da4adf68ed372f35c4
 }

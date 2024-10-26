@@ -3,7 +3,7 @@ import utn.methodology.domain.entities.models.User
 import utn.methodology.application.commands.ConfirmUserCommand
 import utn.methodology.domain.entities.User
 import utn.methodology.domain.entities.contracts.UserRepository
-import utn.methodology.infrastructure.persistence.repositories.MongoUserRepository
+import utn.methodology.infrastructure.persistence.repositories.UserMongoRepository
 import java.util.*
 
 class ConfirmUserHandler(

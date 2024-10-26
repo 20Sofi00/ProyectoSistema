@@ -4,10 +4,10 @@ import org.litote.kmongo.addToSet
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.UpdateOptions
-import utn.methodology.domain.entities.User
 import org.bson.Document
 import org.litote.kmongo.updateOneById
 import utn.methodology.domain.entities.contracts.UserRepository
+import utn.methodology.domain.entities.models.User
 
 class UserMongoRepository(private val database: MongoDatabase) : UserRepository {
 

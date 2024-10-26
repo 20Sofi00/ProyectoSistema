@@ -1,4 +1,4 @@
-package utn.methodology.domain.entities
+package utn.methodology.domain.entities.models
 import org.mindrot.jbcrypt.BCrypt
 import java.util.UUID
 

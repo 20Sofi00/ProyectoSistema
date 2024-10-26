@@ -4,7 +4,7 @@ import utn.methodology.infrastructure.http.actions.ConfirmUserAction
 import utn.methodology.infrastructure.persistence.connectToMongoDB
 import utn.methodology.application.commandhandlers.ConfirmUserHandler
 import utn.methodology.application.commands.ConfirmUserCommand
-import utn.methodology.infrastructure.persistence.repositories.MongoUserRepository
+import utn.methodology.infrastructure.persistence.repositories.UserMongoRepository
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -16,7 +16,7 @@ import io.ktor.server.request.*
 fun Application.routear() {
     val mongoDatabase = connectToMongoDB()
 
-    val userMongoRepository = MongoUserRepository(mongoDatabase)
+    val userMongoRepository = UserMongoRepository(mongoDatabase)
 
     val confirmUserAction =
         ConfirmUserAction(ConfirmUserHandler(userMongoRepository))
