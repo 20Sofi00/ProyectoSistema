@@ -6,7 +6,7 @@ import kotlin.test.*
 
 class UserServiceTest {
 
-    private val userService = UserService()
+    private val postService = PostService()
 
     @Test
     fun create_user_should_returns_201() {
@@ -15,7 +15,7 @@ class UserServiceTest {
         val email = "john.doe@example.com"
 
         // Ejecutamos la función que crea el usuario
-        val (statusCode, user) = userService.createUser(name, email)
+        val (statusCode, user) = postService.createUser(name, email)
 
         // Verificamos que el status sea 201
         assertEquals(201, statusCode)
@@ -31,7 +31,7 @@ class UserServiceTest {
         val email = "invalid@example.com"
 
         // Ejecutamos la función con un nombre inválido
-        val (statusCode, user) = userService.createUser(name, email)
+        val (statusCode, user) = postService.createUser(name, email)
 
         // Verificamos que el status sea 400 y que no se haya creado el usuario
         assertEquals(400, statusCode)
@@ -45,7 +45,7 @@ class UserServiceTest {
         val email = ""
 
         // Ejecutamos la función con un email vacío
-        val (statusCode, user) = userService.createUser(name, email)
+        val (statusCode, user) = postService.createUser(name, email)
 
         // Verificamos que el status sea 400 y que no se haya creado el usuario
         assertEquals(400, statusCode)
