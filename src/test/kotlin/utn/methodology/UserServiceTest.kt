@@ -1,54 +1,86 @@
-package utn.methodology
+package utn.methodology.infrastructure.persistence.repositories
 
-import io.ktor.http.*
-import io.ktor.server.testing.*
-import kotlin.test.*
+import com.mongodb.client.MongoCollection
+import com.mongodb.client.MongoDatabase
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
+import org.bson.Document
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import utn.methodology.domain.entities.models.User
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
-class UserServiceTest {
+class UserMongoRepositoryTest {
 
-    private val postService = PostService()
+    private lateinit var database: MongoDatabase
+    private lateinit var collection: MongoCollection<Document>
+    private lateinit var userRepository: UserMongoRepository
+
+    @BeforeEach
+    fun setup() {
+        // Mockeamos la base de datos y la colección
+        database = mockk()
+        collection = mockk()
+        every { database.getCollection("users") } returns collection
+
+        // Instanciamos el repositorio con la base de datos mockeada
+        userRepository = UserMongoRepository(database)
+    }
+    @Test
+    fun testSaveUser() {
+        // Usa el método create para crear el usuario con la contraseña cifrada
+        val user = User.create(
+            name = "Test User",
+            userName = "testuser",
+            email = "test@example.com",
+            password = "plainPassword"
+        )
+
+        // Mock de la operación insertOne
+        every { collection.insertOne(any()) } returns mockk()
+
+        // Ejecuta el método save
+        userRepository.save(user)
+
+        // Verifica que se llamó a insertOne con el documento correcto
+        verify {
+            collection.insertOne(
+                Document(user.toPrimitives())
+            )
+        }
+    }
+
 
     @Test
-    fun create_user_should_returns_201() {
-        // Simulación de datos válidos
-        val name = "John Doe"
-        val email = "john.doe@example.com"
+    fun testFindByIdReturnsUser() {
+        val userId = "12345"
+        val userDocument = Document("_id", userId)
+            .append("name", "Test User")
+            .append("userName", "testuser")
+            .append("email", "test@example.com")
+            .append("password", "hashedPassword")
 
-        // Ejecutamos la función que crea el usuario
-        val (statusCode, user) = postService.createUser(name, email)
+        every { collection.find(ofType<Document>()).firstOrNull() } returns userDocument
 
-        // Verificamos que el status sea 201
-        assertEquals(201, statusCode)
+        val user = userRepository.findById(userId)
+
         assertNotNull(user)
-        assertEquals("John Doe", user?.name)
-        assertEquals("john.doe@example.com", user?.email)
+        assertEquals(userId, user?.uuid)
+        assertEquals("Test User", user?.name)
+        assertEquals("testuser", user?.userName)
+        assertEquals("test@example.com", user?.email)
     }
 
     @Test
-    fun create_user_should_returns_400() {
-        // Simulación de datos inválidos (nombre nulo)
-        val name: String? = null
-        val email = "invalid@example.com"
+    fun testFindByIdReturnsNullWhenUserNotFound() {
+        // Mock del método `find` en la colección, especificando el tipo con `ofType<Document>()`
+        every { collection.find(ofType<Document>()).firstOrNull() } returns null
 
-        // Ejecutamos la función con un nombre inválido
-        val (statusCode, user) = postService.createUser(name, email)
+        val user = userRepository.findById("nonexistent-id")
 
-        // Verificamos que el status sea 400 y que no se haya creado el usuario
-        assertEquals(400, statusCode)
-        assertNull(user)
-    }
-
-    @Test
-    fun create_user_should_returns_400_for_empty_email() {
-        // Simulación de datos inválidos (email vacío)
-        val name = "Valid Name"
-        val email = ""
-
-        // Ejecutamos la función con un email vacío
-        val (statusCode, user) = postService.createUser(name, email)
-
-        // Verificamos que el status sea 400 y que no se haya creado el usuario
-        assertEquals(400, statusCode)
-        assertNull(user)
+        assertNull(user) // Verifica que el resultado sea `null` cuando no se encuentra el usuario
     }
 }
