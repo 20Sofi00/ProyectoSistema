@@ -16,14 +16,5 @@ class PostService(
     fun getPostById(postId: String): Post? {
         return MongoPostRepository.findById(postId)
     }
-    fun createPost(post: Post): Boolean {
-        // Verifica si el mensaje está vacío
-        if (post.message.isEmpty()) {
-            throw IllegalArgumentException("El mensaje no puede estar vacío")
-        }
 
-        // Intenta guardar el post y devuelve el resultado
-        return MongoPostRepository.save(post)
-    }
-}
 }

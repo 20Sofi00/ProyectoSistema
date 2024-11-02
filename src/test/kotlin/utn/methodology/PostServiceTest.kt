@@ -1,48 +1,48 @@
 package utn.methodology
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import org.mockito.Mockito.*
-import utn.methodology.application.services.PostService
-import utn.methodology.domain.entities.models.Post
-import utn.methodology.infrastructure.persistence.repositories.MongoPostRepository
-import utn.methodology.infrastructure.persistence.repositories.UserMongoRepository
-import java.time.LocalDateTime
 
-class PostServiceTest {
+import example.com.application.commandhandlers.CreatePostHandler
+import example.com.application.commands.CreatePostCommand
+import example.com.shared.mocks.MockPostRepository
+import example.com.shared.mocks.MockUserRepository
+import example.com.shared.mothers.PostMother
+import example.com.shared.mothers.UserMother
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 
-    private val userMongoRepository: UserMongoRepository = mock(UserMongoRepository::class.java)
-    private val mongoPostRepository: MongoPostRepository = mock(MongoPostRepository::class.java)
-    private val postService = PostService(userMongoRepository, mongoPostRepository)
+class CreatePostHandlerTest {
 
-    @Test
-    fun create_post_should_returns_201() {
-        // Arrange
-        val userId = "user123"
-        val post = Post(id = "post123", userId = userId, message = "Hello, World!", createdAt = LocalDateTime.now())
+    private val mockUserRepository: MockUserRepository = MockUserRepository()
+    private val mockPostRepository: MockPostRepository = MockPostRepository()
 
-        // Simular que el repositorio devuelve true al intentar guardar el post
-        `when`(mongoPostRepository.save(post)).thenReturn(true)
+    private var sut: CreatePostHandler = CreatePostHandler(mockUserRepository, mockPostRepository)
 
-        // Act
-        val result = postService.createPost(post)
-
-        // Assert
-        assertEquals(true, result)
-        verify(mongoPostRepository).save(post) // Verificar que el método save fue llamado
+    @BeforeTest
+    fun beforeEach() {
+        mockPostRepository.clean()
+        mockUserRepository.clean()
     }
 
     @Test
-    fun create_post_should_returns_400() {
-        // Arrange
-        val userId = "user123"
-        val post = Post(id = "post123", userId = userId, message = "", createdAt = LocalDateTime.now()) // Mensaje vacío
+    fun `should create a post and persist into database`() {
+        // arrange
+        val user = UserMother.random()
+        val content = PostMother.faker.southPark.quotes()
 
-        // Act & Assert
-        val exception = assertThrows<IllegalArgumentException> {
-            postService.createPost(post)
-        }
-        assertEquals("El mensaje no puede estar vacío", exception.message) // Verificar que se lanza la excepción correcta
+        mockUserRepository.save(user)
+
+        val command = CreatePostCommand(
+            content,
+            user.getId()
+        )
+
+        // act
+        sut.handle(command)
+
+        // assertions
+        val posts = mockPostRepository.findByOwnerId(user.getId())
+
+        assert(posts.size == 1)
+        assert(posts[0].getContent() === content)
     }
 }

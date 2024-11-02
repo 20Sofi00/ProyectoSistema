@@ -26,6 +26,7 @@ repositories {
 
 dependencies {
     // Ktor Core
+    testImplementation("io.mockk:mockk:1.12.0")
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("io.ktor:ktor-server-content-negotiation-jvm")
