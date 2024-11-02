@@ -36,7 +36,6 @@ fun findById(postId: String): Post? {
         val document = collection.find(Filters.eq("_id", postId)).first()
         return document?.let {
             Post(
-                id = postId,
                 userId = it.getString("userId"),
                 message = it.getString("message"),
                 createdAt = LocalDateTime.parse(it.getString("createdAt"))
@@ -49,7 +48,6 @@ fun findById(postId: String): Post? {
         return collection.find(Filters.`in`("userId", userIds))
             .map { doc: Document ->
                 Post(
-                    id = doc.getObjectId("_id").toHexString(),
                     userId = doc.getString("userId"),
                     message = doc.getString("message"),
                     createdAt = doc.getDate("createdAt")
