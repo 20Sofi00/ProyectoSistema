@@ -34,8 +34,6 @@ dependencies {
     implementation("org.mongodb:bson:$mongo_version")
     implementation("io.ktor:ktor-server-host-common:2.0.0")
     implementation("io.ktor:ktor-server-status-pages:2.0.0")
-    implementation("io.ktor:ktor-server-routing:2.0.0")
-    implementation("io.ktor:ktor-server-core:2.0.0")
     implementation("io.ktor:ktor-serialization-jackson-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("ch.qos.logback:logback-classic:$logback_version")
@@ -54,10 +52,9 @@ dependencies {
 
     // Logging
     implementation("ch.qos.logback:logback-classic:1.2.10")
-
     // Testing
-    testImplementation("io.ktor:ktor-server-test-host:2.0.0")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.5.30")
+    testImplementation("io.ktor:ktor-server-test-host-jvm")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
     testImplementation("io.mockk:mockk:1.12.0")
 }

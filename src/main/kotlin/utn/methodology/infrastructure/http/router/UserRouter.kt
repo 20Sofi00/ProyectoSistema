@@ -9,6 +9,9 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import utn.methodology.application.queries.FindUserByIdQuery
+import utn.methodology.application.queryhandlers.FindUserByIdHandler
+import utn.methodology.infrastructure.http.actions.FindUserByIdAction
 import utn.methodology.infrastructure.persistence.connectToMongoDB
 
 fun Application.userRoutes() {
@@ -17,6 +20,8 @@ fun Application.userRoutes() {
     val userRepository = UserMongoRepository(mongoDatabase) // Inyección del repositorio
 
     val createUserAction = CreateUserAction(CreateUserHandler(userRepository))
+
+    val findUserByIdAction = FindUserByIdAction(FindUserByIdHandler(userRepository))
 
 
 
@@ -30,6 +35,16 @@ fun Application.userRoutes() {
 
         get("/users") {
             call.respond(HttpStatusCode.OK,  mapOf("message" to "ok"))
+        }
+
+        get("/users/{id}") {
+
+            val query = FindUserByIdQuery(call.parameters["id"].toString())
+
+            val result = findUserByIdAction.execute(query)
+
+            call.respond(HttpStatusCode.OK, result)
+
         }
 
     }

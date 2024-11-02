@@ -54,7 +54,7 @@ class User(
         }
     }
 
-    fun toPrimitives(): Map<String, Any?> {
+    fun toPrimitives(): Map<String, String> {
         return mapOf(
             "id" to this.uuid,
             "name" to this.name,

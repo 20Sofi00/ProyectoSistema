@@ -56,7 +56,7 @@ class UserMongoRepository(private val database: MongoDatabase) : UserRepository 
             return null
         }
 
-        return User.fromPrimitives(primitives as Map<String, String>)
+        return User.fromPrimitives(primitives.toMap())
     }
 
     // Implementación del método findById
