@@ -1,86 +1,45 @@
 package utn.methodology.infrastructure.persistence.repositories
+package utn.methodology
 
-import com.mongodb.client.MongoCollection
-import com.mongodb.client.MongoDatabase
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
-import org.bson.Document
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import utn.methodology.domain.entities.models.User
+import io.ktor.http.*
+import io.ktor.server.testing.*
+import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
-class UserMongoRepositoryTest {
+class UserServiceTest {
 
-    private lateinit var database: MongoDatabase
-    private lateinit var collection: MongoCollection<Document>
-    private lateinit var userRepository: UserMongoRepository
-
-    @BeforeEach
-    fun setup() {
-        // Mockeamos la base de datos y la colección
-        database = mockk()
-        collection = mockk()
-        every { database.getCollection("users") } returns collection
-
-        // Instanciamos el repositorio con la base de datos mockeada
-        userRepository = UserMongoRepository(database)
-    }
     @Test
-    fun testSaveUser() {
-        // Usa el método create para crear el usuario con la contraseña cifrada
-        val user = User.create(
-            name = "Test User",
-            userName = "testuser",
-            email = "test@example.com",
-            password = "plainPassword"
-        )
-
-        // Mock de la operación insertOne
-        every { collection.insertOne(any()) } returns mockk()
-
-        // Ejecuta el método save
-        userRepository.save(user)
-
-        // Verifica que se llamó a insertOne con el documento correcto
-        verify {
-            collection.insertOne(
-                Document(user.toPrimitives())
-            )
+    fun create_user_should_returns_201() = testApplication {
+        // Simula una solicitud HTTP POST para crear un usuario válido
+        val response = client.post("/users") {
+            contentType(ContentType.Application.Json)
+            setBody("""
+                {
+                    "name": "Miguelita",
+                    "userName": "Miguelita_NoEx",
+                    "email": "miguelita-NoExiste@example.com",
+                    "password": "Incorrecta.123"
+                }
+            """.trimIndent())
         }
-    }
-
-
-    @Test
-    fun testFindByIdReturnsUser() {
-        val userId = "12345"
-        val userDocument = Document("_id", userId)
-            .append("name", "Test User")
-            .append("userName", "testuser")
-            .append("email", "test@example.com")
-            .append("password", "hashedPassword")
-
-        every { collection.find(ofType<Document>()).firstOrNull() } returns userDocument
-
-        val user = userRepository.findById(userId)
-
-        assertNotNull(user)
-        assertEquals(userId, user?.uuid)
-        assertEquals("Test User", user?.name)
-        assertEquals("testuser", user?.userName)
-        assertEquals("test@example.com", user?.email)
+        // Verifica que la respuesta sea 201 Created
+        assertEquals(HttpStatusCode.Created, response.status)
     }
 
     @Test
-    fun testFindByIdReturnsNullWhenUserNotFound() {
-        // Mock del método `find` en la colección, especificando el tipo con `ofType<Document>()`
-        every { collection.find(ofType<Document>()).firstOrNull() } returns null
-
-        val user = userRepository.findById("nonexistent-id")
-
-        assertNull(user) // Verifica que el resultado sea `null` cuando no se encuentra el usuario
+    fun create_user_should_returns_400() = testApplication {
+        // Simula una solicitud HTTP POST con datos incorrectos (ej: falta el email)
+        val response = client.post("/users") {
+            contentType(ContentType.Application.Json)
+            setBody("""
+                {
+                    "name": "Josesito",
+                    "userName": "Josesito_NoEx",
+                    "password": "Incorrecta.123"
+                }
+            """.trimIndent())
+        }
+        // Verifica que la respuesta sea 400 Bad Request
+        assertEquals(HttpStatusCode.BadRequest, response.status)
     }
 }
