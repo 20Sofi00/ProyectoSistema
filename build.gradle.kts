@@ -7,6 +7,7 @@ plugins {
     kotlin("jvm") version "2.0.0"
     id("io.ktor.plugin") version "2.3.12"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0"
+
 }
 
 group = "utn.methodology"
@@ -24,6 +25,7 @@ repositories {
 }
 
 dependencies {
+    // Ktor Core
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("io.ktor:ktor-server-content-negotiation-jvm")
@@ -39,4 +41,21 @@ dependencies {
     implementation("io.ktor:ktor-server-config-yaml")
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+
+    // MongoDB
+    implementation("org.litote.kmongo:kmongo:5.1.0")
+    implementation("org.mongodb:mongodb-driver-core:4.4.0")
+    implementation("org.mongodb:mongodb-driver-sync:4.4.0")
+    implementation("org.mongodb:bson:4.4.0")
+
+    // Security
+    implementation("org.mindrot:jbcrypt:0.4")
+
+    // Logging
+    implementation("ch.qos.logback:logback-classic:1.2.10")
+    // Testing
+    testImplementation("io.ktor:ktor-server-test-host-jvm")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
+    testImplementation("io.mockk:mockk:1.12.0")
 }

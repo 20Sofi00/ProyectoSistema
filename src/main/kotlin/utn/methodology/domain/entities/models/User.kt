@@ -1,14 +1,14 @@
-package utn.methodology.domain.entities
-
+package utn.methodology.domain.entities.models
 import org.mindrot.jbcrypt.BCrypt
 import java.util.UUID
 
-class User (
-    private val uuid: String,
-    private val name: String,
-    private val userName: String,
-    private val email: String,
-    private val password: String,
+class User(
+    val uuid: String,
+    val name: String,
+    val userName: String,
+    val email: String,
+    val followers: MutableList<String> = mutableListOf(),
+    val followed: MutableList<String> = mutableListOf()
 ) {
 
 
@@ -19,24 +19,20 @@ class User (
             return BCrypt.hashpw(plainPassword, BCrypt.gensalt())
         }
         fun fromPrimitives(primitives: Map<String, Any>): User {
+            val uuid = (primitives["uuid"] as? String)
+                ?: throw IllegalArgumentException("El id no puede ser nulo") 
+            val name = (primitives["name"] as? String)
+                ?: throw IllegalArgumentException("El nombre no puede ser nulo")
+            val userName = (primitives["userName"] as? String)
+                ?: throw IllegalArgumentException("El nombre de usuario no puede ser nulo")
+            val email = (primitives["email"] as? String)
+                ?: throw IllegalArgumentException("El correo electrónico no puede ser nulo")
+            val password = (primitives["password"] as? String)
+                ?: throw IllegalArgumentException("La contraseña no puede ser nula")
 
-            // Verificamos cada valor con 'as?' si el valor no es del tipo correcto devuelve null
-            // Luego consulta con ':?' , si el valor a la izquierda es null lanzamos una excepción personalizada.
-                val uuid = (primitives["id"] as? String)
-                    ?: throw IllegalArgumentException("El id no puede ser nulo")
-                val name = (primitives["name"] as? String)
-                    ?: throw IllegalArgumentException("El nombre no puede ser nulo")
-                val userName = (primitives["userName"] as? String)
-                    ?: throw IllegalArgumentException("El nombre de usuario no puede ser nulo")
-                val email = (primitives["email"] as? String)
-                    ?: throw IllegalArgumentException("El correo electrónico no puede ser nulo")
-                val password = (primitives["password"] as? String)
-                    ?: throw IllegalArgumentException("La contraseña no puede ser nula")
-
-            return User(uuid, name, userName, email, password);
-
-
+            return User(uuid, name, userName, email)
         }
+
 
         fun create(
 
@@ -50,15 +46,15 @@ class User (
                 UUID.randomUUID().toString(),
                 name,
                 userName,
-                email,
-                hashedPassword // Aquí almacenamos la contraseña cifrada
+                email
+                // Aquí almacenamos la contraseña cifrada
             )
 
             return user
         }
     }
 
-    fun toPrimitives(): Map<String, Any?> {
+    fun toPrimitives(): Map<String, String> {
         return mapOf(
             "id" to this.uuid,
             "name" to this.name,
@@ -72,3 +68,4 @@ class User (
         return this.uuid;
     }
 }
+
