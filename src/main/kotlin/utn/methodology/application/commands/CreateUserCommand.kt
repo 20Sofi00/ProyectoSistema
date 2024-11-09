@@ -1,5 +1,8 @@
 package utn.methodology.application.commands
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 class CreateUserCommand(
     val name: String,
     val userName: String,
@@ -16,13 +19,13 @@ class CreateUserCommand(
             throw IllegalArgumentException("statusCode 400 / BadRequest: Nombre no valido")
         }
         if (!validUserName(userName)) {
-            throw IllegalArgumentException("statusCode 400 / BadRequest: Nombre de Usuario no valido")
+            //throw IllegalArgumentException("statusCode 400 / BadRequest: Nombre de Usuario no valido")
         }
         if (!validEmail(email)) {
             throw IllegalArgumentException("statusCode 400 / BadRequest: Correo electrónico no valido")
         }
         if (!validPassword(password)) {
-            throw IllegalArgumentException("statusCode 400 / BadRequest: Contraseña no valida")
+            //throw IllegalArgumentException("statusCode 400 / BadRequest: Contraseña no valida")
         }
 
         return this

@@ -40,10 +40,8 @@ fun Application.connectToMongoDB(): MongoDatabase {
     val port = "27017"
     val databaseName = "tputn"
 
-    val credentials = user?.let { userVal -> password?.let { passwordVal -> "$userVal:$passwordVal@" } }.orEmpty()
+    val credentials = user.let { userVal -> password.let { passwordVal -> "$userVal:$passwordVal@" } }.orEmpty()
     val uri = "mongodb://$credentials$host:$port"
-
-
 
     val mongoClient = MongoClients.create(uri)
     val database = mongoClient.getDatabase(databaseName)
