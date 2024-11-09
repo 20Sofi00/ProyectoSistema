@@ -10,7 +10,7 @@ class FindUserByNameHandler(
 
     fun handle(query: FindUserByNameQuery): Map<String, String> {
 
-        val user = userRepository.findOne(query.name)
+        val user = userRepository.findByName(query.name)
 
         if (user == null) {
             throw NotFoundException("usuario con el nombre: ${query.name} no fue encontrado")

@@ -59,6 +59,18 @@ class UserMongoRepository(private val database: MongoDatabase) : UserRepository 
         return User.fromPrimitives(primitives.toMap())
     }
 
+    override fun findByName(name: String): User? {
+        val filter = Document("userName", name)
+
+        val primitives = collection.find(filter).firstOrNull()
+
+        if (primitives == null) {
+            return null
+        }
+
+        return User.fromPrimitives(primitives.toMap())
+    }
+
     // Implementación del método findById
     override fun findById(followerId: String): User? {
         return findOne(followerId)
