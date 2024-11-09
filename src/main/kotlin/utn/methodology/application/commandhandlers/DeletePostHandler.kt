@@ -10,7 +10,7 @@ class DeletePostHandler(
 
     fun handle(command: DeletePostCommand) {
 
-        val post = postRepository.findById(command.postId)
+        val post = postRepository.findById(command.postId.toString())
 
         if (post != null) {
             postRepository.delete(command.postId, command.userId);

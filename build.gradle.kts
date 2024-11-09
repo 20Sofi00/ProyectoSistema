@@ -26,21 +26,14 @@ repositories {
 
 dependencies {
     // Ktor Core
-    implementation("io.ktor:ktor-server-core-jvm")
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm")
-    implementation("org.mongodb:mongodb-driver-core:$mongo_version")
-    implementation("org.mongodb:mongodb-driver-sync:$mongo_version")
-    implementation("org.mongodb:bson:$mongo_version")
-    implementation("org.mindrot.bcrypt:bcrypt:0.3")
+    implementation("io.ktor:ktor-server-core-jvm:2.0.0")
+    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:2.0.0")
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:2.0.0")
     implementation("io.ktor:ktor-server-host-common:2.0.0")
     implementation("io.ktor:ktor-server-status-pages:2.0.0")
-    implementation("io.ktor:ktor-serialization-jackson-jvm")
-    implementation("io.ktor:ktor-server-netty-jvm")
-    implementation("ch.qos.logback:logback-classic:$logback_version")
-    implementation("io.ktor:ktor-server-config-yaml")
-    testImplementation("io.ktor:ktor-server-test-host-jvm")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    implementation("io.ktor:ktor-serialization-jackson-jvm:2.0.0")
+    implementation("io.ktor:ktor-server-netty-jvm:2.0.0")
+    implementation("io.ktor:ktor-server-config-yaml:2.0.0")
 
     // MongoDB
     implementation("org.litote.kmongo:kmongo:5.1.0")
@@ -53,8 +46,9 @@ dependencies {
 
     // Logging
     implementation("ch.qos.logback:logback-classic:1.2.10")
+
     // Testing
-    testImplementation("io.ktor:ktor-server-test-host-jvm")
+    testImplementation("io.ktor:ktor-server-test-host-jvm:2.0.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
     testImplementation("io.mockk:mockk:1.12.0")
