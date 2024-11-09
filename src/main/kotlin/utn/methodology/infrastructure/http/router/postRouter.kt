@@ -59,11 +59,6 @@ fun Application.module() {
             // Obtener el ID del usuario, asumido que es enviado en los parámetros de la consulta o el cuerpo de la petición
             val userId = call.request.queryParameters["userId"] ?: return@delete call.respond(HttpStatusCode.BadRequest, "Missing userId")
 
-            // Crear el comando para eliminar el post usando postId y userId
-            val query = DeletePostCommand(postId, userId)
-
-            // Ejecutar la acción de eliminación del post
-            deletePostAction.execute(query)
 
             // Responder con el código de éxito apropiado (204 No Content)
             call.respond(HttpStatusCode.NoContent)
