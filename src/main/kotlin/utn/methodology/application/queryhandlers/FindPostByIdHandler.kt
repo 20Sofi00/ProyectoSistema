@@ -9,27 +9,33 @@ import utn.methodology.infrastructure.persistence.repositories.MongoPostReposito
 import utn.methodology.infrastructure.persistence.repositories.UserMongoRepository;
 import java.time.LocalDateTime
 
+
 class FindPostByIdHandler(
-        private val postRepository: MongoPostRepository,
-        private val userRepository : UserMongoRepository
+    private val postRepository: MongoPostRepository,
+    private val userRepository: UserMongoRepository
 ) {
 
     fun handle(command: CreatePostCommand): String {
-
         if (!userRepository.existsByUuid(command.userId)) {
             return "Error: debe existir el usuario."
         }
+
         // Validación de longitud del mensaje
         if (command.message.length > 500) {
-            throw IllegalArgumentException("ERROR:El mensaje no puede exceder los 500 caracteres")
+            throw IllegalArgumentException("ERROR: El mensaje no puede exceder los 500 caracteres")
         }
 
-        // Creación del post
-        val post = Post(id = UUID.randomUUID().toString(), command.userId, message = command.message)
+        // Creación del post con la fecha y hora actuales
+        val post = Post(
+            id = UUID.randomUUID().toString(),
+            userId = command.userId,
+            message = command.message,
+            createdAt = LocalDateTime.now()
+        )
 
         return try {
             postRepository.save(post)
-            return "post creado exitosamente"
+            "Post creado exitosamente"
         } catch (e: Exception) {
             "Error al crear el post: ${e.message}"
         }

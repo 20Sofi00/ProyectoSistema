@@ -14,6 +14,6 @@ class PostService(
 
     }
     fun getPostById(postId: String): Post? {
-        return MongoPostRepository.findById(postId)
+        return MongoPostRepository.findOne(postId)
     }
 }

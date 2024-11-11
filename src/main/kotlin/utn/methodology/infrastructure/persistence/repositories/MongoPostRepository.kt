@@ -58,11 +58,19 @@ class MongoPostRepository(private val database: MongoDatabase) {
             )
         }.toList()
     }
-    fun findOne(id: Post): Post? {
-        val filter = Document("_id", id)
-        val primitives = collection.find(filter).firstOrNull()
-        return primitives?.let { Post.fromPrimitives(it.toMap() as Map<String, String>) }
-    }
+    fun findOne(postId: String): Post? {
+        val filter = Document("_id", postId)
+        val document = collection.find(filter).firstOrNull()
+        return document?.let {
+            Post(
+                id = postId,
+                userId = it.getString("userId"),
+                message = it.getString("message"),
+                createdAt = LocalDateTime.parse(it.getString("createdAt"))
+            )
+        }
+
+}
     fun delete(postId: Post, userId: String) {
         val filter = Document("_id", postId).append("userId", userId)
         val result = collection.deleteOne(filter)

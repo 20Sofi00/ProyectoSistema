@@ -18,6 +18,7 @@ import utn.methodology.application.commands.DeletePostCommand
 import utn.methodology.application.queries.FindPostByIdQuery
 import utn.methodology.application.queryhandlers.FindPostByIdHandler
 import utn.methodology.infrastructure.http.actions.DeletePostAction
+import utn.methodology.infrastructure.http.actions.FindPostByIdAction
 import utn.methodology.infrastructure.persistence.repositories.UserMongoRepository
 
 fun main() {
@@ -97,12 +98,12 @@ fun Route.postRoutes(postService: PostService) {
 
         try {
             // Validar parámetros adicionales
-            if (limit !in 1..280) throw IllegalArgumentException("El límite debe estar entre 1 y 280")
+            if (limit !in 1..500) throw IllegalArgumentException("El límite debe estar entre 1 y 500")
             if (offset < 0) throw IllegalArgumentException("El offset debe ser mayor o igual a 0")
             if (order.uppercase() !in listOf("ASC", "DESC")) throw IllegalArgumentException("El orden debe ser 'ASC' o 'DESC'")
 
             // Obtener posts desde el servicio
-            val posts = findPostByIdAction.execute(FindPostByIdQuery(userId.toString(), order.uppercase(), limit, offset))
+            val posts = FindPostByIdAction.execute(FindPostByIdQuery(userId.toString(), order.uppercase(), limit, offset))
 
             println("sale de obtener los posts")
             println("los posts son $posts")
@@ -126,7 +127,7 @@ fun Route.postRoutes(postService: PostService) {
         if (post != null) {
             call.respond(HttpStatusCode.OK, post)
         } else {
-            call.respond(HttpStatusCode.NotFound, "Post not found with ID: $postId")
+            call.respond(HttpStatusCode.NotFound, "Post no encontrado con el ID: $postId")
         }
     }
 }
