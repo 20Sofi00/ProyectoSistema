@@ -24,8 +24,8 @@ import utn.methodology.infrastructure.http.actions.FindPostByIdAction
 import utn.methodology.infrastructure.persistence.repositories.UserMongoRepository
 
 //fun main() {
-//    embeddedServer(Netty, port = 8080, module = Application::module).start(wait = true)
-//}
+////    embeddedServer(Netty, port = 8080, module = Application::module).start(wait = true)
+////}
 
 fun Application.postRouter() {
     // Conectar a la base de datos MongoDB
@@ -86,15 +86,15 @@ fun Application.postRouter() {
             if (posts.isNotEmpty()) {
                 call.respond(HttpStatusCode.OK, posts)
             } else {
-                call.respond(HttpStatusCode.NotFound, "No posts found for followed users of userId: $userId")
+                call.respond(HttpStatusCode.NotFound, "No se encontraron los post para los usuarios seguidos del usuario: $userId")
             }
         }
         get("/posts") {
-            // Extraer parámetros de búsqueda desde la query
+            // Extraer parámetros de búsqueda desde la query. Se definen los valores por defecto exepto el userId
             val userId = call.request.queryParameters["user_id"]
-            val order = call.request.queryParameters["order"] ?: "DESC" // Valor por defecto DESC
-            val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 10 // Valor por defecto 10
-            val offset = call.request.queryParameters["offset"]?.toIntOrNull() ?: 0 // Valor por defecto 0
+            val order = call.request.queryParameters["order"] ?: "DESC"
+            val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 10
+            val offset = call.request.queryParameters["offset"]?.toIntOrNull() ?: 0
 
             // Validar que el userId no sea nulo
             if (userId == null) {
@@ -128,7 +128,7 @@ fun Application.postRouter() {
 
 
         get("/posts/{id}") {
-            val postId = call.parameters["id"] ?: return@get call.respond(HttpStatusCode.BadRequest, "Missing post ID")
+            val postId = call.parameters["id"] ?: return@get call.respond(HttpStatusCode.BadRequest, "Falta el Id del post")
             val post = postService.getPostById(postId)
 
             if (post != null) {
