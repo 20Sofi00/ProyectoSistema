@@ -40,7 +40,6 @@ data class Post(
             "createdAt" to this.createdAt
         )
     }
-    fun GetUserId(): String{ return  this.userId}
 
 }
 
