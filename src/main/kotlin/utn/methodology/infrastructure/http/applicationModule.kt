@@ -6,7 +6,7 @@ import utn.methodology.infrastructure.persistence.connectToMongoDB
 import utn.methodology.infrastructure.persistence.repositories.UserMongoRepository
 import utn.methodology.infrastructure.persistence.repositories.MongoPostRepository
 import utn.methodology.application.services.PostService
-import utn.methodology.infrastructure.http.router.postRoutes
+import utn.methodology.infrastructure.http.router.postRouter
 
 
 fun Application.module() {
@@ -15,7 +15,7 @@ fun Application.module() {
     val postRepository = MongoPostRepository(database)
     val postService = PostService(userRepository, postRepository)
 
-    routing {
-        postRoutes(postService)
-    }
+//    routing {
+//        postRouter(postService)
+//    }
 }

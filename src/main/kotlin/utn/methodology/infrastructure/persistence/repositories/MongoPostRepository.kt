@@ -31,22 +31,29 @@ class MongoPostRepository(private val database: MongoDatabase) {
     }
 
 
-    fun findById(postId: String, order: String, limit: Int, offset: Int): List<Post>{
-        val orderBy = if (order == "ASC") 1 else -1
-
-        return collection.find(Filters.eq("userId", postId))
-            .sort(Document("createdAt", orderBy))
-            .skip(offset)
-            .limit(limit)
-            .map {
-                Post(
-                    id = UUID.randomUUID().toString(),
-                    userId = it.getString("userId"),
-                    message = it.getString("message"),
-                    createdAt = LocalDateTime.parse(it.getString("createdAt")),
-                )
-            }.toList()
+    fun findById(
+        userId: String,
+        order: String = "DESC",
+        limit: Int? = null,
+        offset: Int? = null
+    ): List<Post> {
+        val filter = Document("userId", userId)
+        val sortOrder = if (order == "ASC") 1 else -1
+        var query = collection.find(filter)
+        if (offset != null) {
+            query = query.skip(offset)
         }
+        if (limit != null) {
+            query = query.limit(limit)
+        }
+        query = query.sort(Document("createdAt", sortOrder))
+        val primitives = query.toList()
+
+        return primitives.map {
+            Post.fromPrimitives(it as Map<String, Any>)
+        }
+    }
+
 
     fun findAll(): List<Post> {
         return collection.find().map {
@@ -58,19 +65,13 @@ class MongoPostRepository(private val database: MongoDatabase) {
             )
         }.toList()
     }
-    fun findOne(postId: String): Post? {
-        val filter = Document("_id", postId)
-        val document = collection.find(filter).firstOrNull()
-        return document?.let {
-            Post(
-                id = postId,
-                userId = it.getString("userId"),
-                message = it.getString("message"),
-                createdAt = LocalDateTime.parse(it.getString("createdAt"))
-            )
-        }
+    fun findOne(id: Post): Post? {
+        val filter = Document("_id", id)
+        val primitives = collection.find(filter).firstOrNull()
+        return primitives?.let { Post.fromPrimitives(it.toMap() as Map<String, String>) }
+    }
 
-}
+
     fun delete(postId: Post, userId: String) {
         val filter = Document("_id", postId).append("userId", userId)
         val result = collection.deleteOne(filter)

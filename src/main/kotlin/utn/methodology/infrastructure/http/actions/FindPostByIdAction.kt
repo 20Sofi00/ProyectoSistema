@@ -10,7 +10,7 @@ class FindPostByIdAction(
     private val handler: FindPostByIdHandler
 ) {
 
-    fun execute(query: FindPostByIdQuery): String {
+    fun execute(query: FindPostByIdQuery):List<Post> {
         query
             .Validate()
             .let {

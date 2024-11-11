@@ -13,7 +13,7 @@ class PostService(
         return MongoPostRepository.getPostsByUsers(followedUserIds)
 
     }
-    fun getPostById(postId: String): Post? {
-        return MongoPostRepository.findOne(postId)
+    fun getPostById(postId: String): List<Post> {
+        return MongoPostRepository.findById(postId)
     }
 }
