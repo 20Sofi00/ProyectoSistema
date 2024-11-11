@@ -4,6 +4,7 @@ import utn.methodology.domain.entities.contracts.UserRepository
 import utn.methodology.domain.entities.models.Post
 import utn.methodology.domain.entities.models.User
 import java.time.LocalDateTime
+import java.util.UUID
 
 class UserService(private val userRepository: UserRepository) {
 
@@ -21,6 +22,7 @@ class UserService(private val userRepository: UserRepository) {
 
         // Crear un post asociado al usuario
         val post = Post(
+            id = UUID.randomUUID().toString(),
             userId = user.getId(),
             message = message,
             createdAt = LocalDateTime.now()

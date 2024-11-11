@@ -8,14 +8,18 @@ class DeletePostHandler(
     private val postRepository : MongoPostRepository
 ) {
 
-    fun handle(command: DeletePostCommand) {
+    fun handle(command: DeletePostCommand): String {
 
-        val post = postRepository.findById(command.postId.toString())
+        val post = postRepository.findOne(command.postId)
 
         if (post != null) {
             postRepository.delete(command.postId, command.userId);
-            return
+            return "Se pudo eliminar correctamente"
         }
-        throw NotFoundException("not found user with id: ${command.postId}")
+        throw NotFoundException("No se encontro el usuario con el id: ${command.postId}");
+
+
+
     }
+
 }

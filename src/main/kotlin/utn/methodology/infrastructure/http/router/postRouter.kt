@@ -15,6 +15,8 @@ import utn.methodology.infrastructure.persistence.connectToMongoDB
 import utn.methodology.infrastructure.persistence.repositories.MongoPostRepository
 import utn.methodology.application.commandhandlers.DeletePostHandler
 import utn.methodology.application.commands.DeletePostCommand
+import utn.methodology.application.queries.FindPostByIdQuery
+import utn.methodology.application.queryhandlers.FindPostByIdHandler
 import utn.methodology.infrastructure.http.actions.DeletePostAction
 import utn.methodology.infrastructure.persistence.repositories.UserMongoRepository
 
@@ -80,8 +82,44 @@ fun Route.postRoutes(postService: PostService) {
             call.respond(HttpStatusCode.NotFound, "No posts found for followed users of userId: $userId")
         }
     }
+    get("/posts") {
+        // Extraer parámetros de búsqueda desde la query
+        val userId = call.request.queryParameters["user_id"]
+        val order = call.request.queryParameters["order"] ?: "DESC" // Valor por defecto DESC
+        val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 10 // Valor por defecto 10
+        val offset = call.request.queryParameters["offset"]?.toIntOrNull() ?: 0 // Valor por defecto 0
 
-    get("/posts/{id}") {
+        // Validar que el userId no sea nulo
+        if (userId == null) {
+            call.respond(HttpStatusCode.BadRequest, "Falta el parámetro 'user_id'")
+            return@get
+        }
+
+        try {
+            // Validar parámetros adicionales
+            if (limit !in 1..280) throw IllegalArgumentException("El límite debe estar entre 1 y 280")
+            if (offset < 0) throw IllegalArgumentException("El offset debe ser mayor o igual a 0")
+            if (order.uppercase() !in listOf("ASC", "DESC")) throw IllegalArgumentException("El orden debe ser 'ASC' o 'DESC'")
+
+            // Obtener posts desde el servicio
+            val posts = findPostByIdAction.execute(FindPostByIdQuery(userId.toString(), order.uppercase(), limit, offset))
+
+            println("sale de obtener los posts")
+            println("los posts son $posts")
+            println("esta vacio " + posts.isEmpty())
+            // Responder con los posts obtenidos
+            call.respond(HttpStatusCode.OK, Json.encodeToString(posts))
+        } catch (e: IllegalArgumentException) {
+            println("error de obtener los posts")
+            call.respond(HttpStatusCode.BadRequest, mapOf("error" to e.message))
+        } catch (e: Exception) {
+            println("exeption  de obtener los posts")
+            call.respond(HttpStatusCode.InternalServerError, "Ocurrió un error inesperado")
+        }
+    }
+
+
+        get("/posts/{id}") {
         val postId = call.parameters["id"] ?: return@get call.respond(HttpStatusCode.BadRequest, "Missing post ID")
         val post = postService.getPostById(postId)
 

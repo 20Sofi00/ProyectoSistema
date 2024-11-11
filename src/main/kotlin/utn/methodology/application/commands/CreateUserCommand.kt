@@ -10,10 +10,10 @@ class CreateUserCommand(
     val password: String,
 ) {
     fun validate(): CreateUserCommand {
-        checkNotNull(name) { throw IllegalArgumentException("name must be defined") }
-        checkNotNull(userName) { throw IllegalArgumentException("userName must be defined") }
-        checkNotNull(email) { throw IllegalArgumentException("email must be defined") }
-        checkNotNull(password) { throw IllegalArgumentException("Contraseña must be defined") }
+        checkNotNull(name) { throw IllegalArgumentException("Nombre ha sido creado") }
+        checkNotNull(userName) { throw IllegalArgumentException("Nombre de usuario ha sido creado") }
+        checkNotNull(email) { throw IllegalArgumentException("Email ha sido creado") }
+        checkNotNull(password) { throw IllegalArgumentException("Contraseña ha sido creado") }
 
         if (!validName(name)) {
             throw IllegalArgumentException("statusCode 400 / BadRequest: Nombre no valido")

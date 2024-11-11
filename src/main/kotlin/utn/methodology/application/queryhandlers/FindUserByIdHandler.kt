@@ -13,7 +13,7 @@ class FindUserByIdHandler(
         val user = userRepository.findOne(query.id)
 
         if (user == null) {
-            throw NotFoundException("user with id: ${query.id} not found")
+            throw NotFoundException("Usuario con id: ${query.id} no encontrado")
         }
 
         return user.toPrimitives()

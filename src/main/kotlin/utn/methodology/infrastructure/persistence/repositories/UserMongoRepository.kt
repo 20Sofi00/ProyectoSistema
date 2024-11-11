@@ -13,6 +13,12 @@ class UserMongoRepository(private val database: MongoDatabase) : UserRepository 
 
     private val collection: MongoCollection<Document> = database.getCollection("users")
 
+    fun existsByUuid(id: String): Boolean {
+        val filter = Document("uuid", id)
+        return collection.find(filter).firstOrNull() != null
+    }
+
+
     fun getFollowedUserIds(userId: String): List<String> {
         val followersCollection = database.getCollection("followers")
         return followersCollection.find(Document("followerId", userId))

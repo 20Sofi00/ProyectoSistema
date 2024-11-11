@@ -1,6 +1,6 @@
 package utn.methodology.infrastructure.persistence.repositories
 import com.mongodb.client.model.Filters
-
+import java.util.UUID
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 
@@ -30,27 +30,39 @@ class MongoPostRepository(private val database: MongoDatabase) {
         return updateResult.modifiedCount > 0
     }
 
-    fun findById(postId: String): Post? {
-        val document = collection.find(Filters.eq("_id", postId)).first()
-        return document?.let {
-            Post(
-                userId = it.getString("userId"),
-                message = it.getString("message"),
-                createdAt = LocalDateTime.parse(it.getString("createdAt"))
-            )
+
+    fun findById(postId: String, order: String, limit: Int, offset: Int): List<Post>{
+        val orderBy = if (order == "ASC") 1 else -1
+
+        return collection.find(Filters.eq("userId", postId))
+            .sort(Document("createdAt", orderBy))
+            .skip(offset)
+            .limit(limit)
+            .map {
+                Post(
+                    id = UUID.randomUUID().toString(),
+                    userId = it.getString("userId"),
+                    message = it.getString("message"),
+                    createdAt = LocalDateTime.parse(it.getString("createdAt")),
+                )
+            }.toList()
         }
-    }
 
     fun findAll(): List<Post> {
         return collection.find().map {
             Post(
+                id = UUID.randomUUID().toString(),
                 userId = it.getString("userId"),
                 message = it.getString("message"),
                 createdAt = LocalDateTime.parse(it.getString("createdAt"))
             )
         }.toList()
     }
-
+    fun findOne(id: Post): Post? {
+        val filter = Document("_id", id)
+        val primitives = collection.find(filter).firstOrNull()
+        return primitives?.let { Post.fromPrimitives(it.toMap() as Map<String, String>) }
+    }
     fun delete(postId: Post, userId: String) {
         val filter = Document("_id", postId).append("userId", userId)
         val result = collection.deleteOne(filter)
@@ -63,6 +75,7 @@ class MongoPostRepository(private val database: MongoDatabase) {
         return collection.find(Filters.`in`("userId", userIds))
             .map { doc: Document ->
                 Post(
+                    id = UUID.randomUUID().toString(),
                     userId = doc.getString("userId"),
                     message = doc.getString("message"),
                     createdAt = doc.getDate("createdAt")
